@@ -1,0 +1,51 @@
+package filenest.domain;
+
+import filenest.domain.label.Label;
+
+public class Document {
+	
+
+	
+	private String documentTitle;
+	private Customer customer;
+	private String content;
+	private DocumentStatus documentStatus;
+	private Label label;
+	
+	private String path;
+	
+	
+	public String getDocumentCode() {
+		return label.getDocumentCode();
+	}
+	
+	public String getDocumentTitle() {
+		return documentTitle;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+	
+	public String getContent() {
+		return content;
+	}
+
+	public DocumentStatus getDocumentStatus() {
+		return documentStatus;
+	}
+
+	public Label getLabel() {
+		return label;
+	}
+	
+	public void showInfo() {
+		System.out.println("*****"+this.documentTitle+"*****");
+		customer.showCusInfo();
+		System.out.println("분류기호"+label.getDocumentCode());
+		System.out.println("저자명"+this.customer.getName());
+		
+	}
+	
+	
+}

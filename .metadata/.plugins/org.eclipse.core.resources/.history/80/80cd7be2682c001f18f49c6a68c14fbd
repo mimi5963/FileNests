@@ -1,0 +1,41 @@
+package filenest.domain.label;
+
+public enum DeptCode {
+	GeneralAffairs(0,"G"),
+	HumanResources(1,"H"),
+	Accounting(2,"A"),
+	SalesTeam(3,"S"),
+	Materials(4,"M"),
+	Planning(5,"P"),
+	IT(6,"I"),
+	Etc(7,"E");
+	
+	private int deptCode;
+	private String initial;
+	
+	private DeptCode(int deptCode, String initial) {
+		this.deptCode = deptCode;
+		this.initial = initial;
+	}
+	
+	public int getDeptCode() {
+		return this.deptCode;
+	}
+	public String getInitial() {
+		return this.initial;
+	}
+	
+	public String getClassficationCode() {
+		return initial+"-"+deptCode;
+	}
+	
+	public DeptCode getDeptCode(int ordinal) {
+		for(DeptCode dc : DeptCode.values()) {
+			if(dc.getDeptCode() == ordinal) {
+				return dc;
+			}
+		}
+		return null;
+	}
+	
+}

@@ -1,0 +1,25 @@
+package filenest.domain;
+
+import java.util.Date;
+
+public class DocumentStatus {
+	private Date regDate;
+	private Date lastModifiedDate;
+	private String versionName;
+	private boolean isPrivate;
+	private String password;
+	
+	public DocumentStatus() {}
+	
+	private DocumentStatus(Date regDate , Date lastModifiedDate, String verseionName, boolean isPrivate, String password) {
+		this.regDate =regDate;
+		this.lastModifiedDate = lastModifiedDate;
+		this.versionName = verseionName;
+		this.versionName = versionName;
+		this.isPrivate = isPrivate;
+		this.password = password;
+	}
+	public static DocumentStatus documentStatusWithPassword(String pass, String versionName) {
+		return new DocumentStatus(new Date(),new Date(), versionName,true,pass);
+	}
+}

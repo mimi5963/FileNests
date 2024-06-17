@@ -1,0 +1,4 @@
+package filenest.system;
+
+public class ManagerAlarmSys implements ManagerAlarmObserver{
+}

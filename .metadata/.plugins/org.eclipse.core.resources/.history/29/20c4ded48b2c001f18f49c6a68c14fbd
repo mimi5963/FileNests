@@ -1,0 +1,8 @@
+package system.observer;
+
+import domain.QnA;
+
+public interface ManagerAlarmObserver {
+    void update(QnA qna);
+}
+

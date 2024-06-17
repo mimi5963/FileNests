@@ -1,0 +1,22 @@
+package filenest.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+import filenest.domain.Document;
+
+public class IOUtil {
+	private static FileOutputStream fos;
+	private static FileInputStream fis;
+	
+	public void writeDocumentPdf(Document document) {
+		
+		try {
+			fos = new FileOutputStream(document.path()+File.separator+document.getDocumentStatus().ge)
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+}

@@ -1,0 +1,11 @@
+package filenest.domain;
+
+public class Label {
+	//추가
+	private String deptCode; //부서기호
+	private int docummentSymbol;//문서기호
+	private String deptLabel;
+	private String authorSymbol;
+	//분류기호 -> 저자기호
+	// 분류 부서기호 - 문서기호
+}

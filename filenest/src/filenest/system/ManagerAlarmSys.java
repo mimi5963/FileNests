@@ -1,4 +1,12 @@
 package filenest.system;
 
-public class ManagerAlarmSys {
+import filenest.domain.QnA;
+import filenest.observer.ManagerAlarmObserver;
+
+public class ManagerAlarmSys implements ManagerAlarmObserver{
+	@Override
+    public void update(QnA qna) {
+        // 관리자에게 알림을 보내는 로직 구현
+        System.out.println(qna.getCustomer().getName() + "님이 작성하신 문의 :  <" + qna.getQnaTitle() + ">");
+    }
 }

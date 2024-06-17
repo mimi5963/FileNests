@@ -1,0 +1,13 @@
+package filenest.domain;
+
+public class Customer {
+
+	public void showCusInfo() {
+		//
+	}
+
+	public String getName() {
+		
+		return null;
+	}
+}

@@ -1,0 +1,34 @@
+package filenest.domain.label;
+
+public class Label {
+	private static int[] operationCodes ={1,2,3,4,5};
+	//추가
+	private String operationCode;
+	private DeptCode deptCode;
+	private String deptLabel;
+	private String authorSymbol;
+	//분류기호 -> 저자기호
+	// 분류 부서기호 - 문서기호
+	public String getDocumentCode() {
+		
+		return deptCode.getClassficationCode()+operationCode;
+	}
+	public String getauthorSymbol() {
+		return this.authorSymbol;
+	}
+	private void setAuthorSymbol(String autorName) {
+		char firstName  = (char)((autorName.charAt(0) -0xAC00/28)/21);
+		
+		if(autorName.length() == 2) {
+			
+		}else {
+			
+		}
+	}
+	
+	public static void main(String[] args) {
+		String autorName = "안";
+		char firstName  = (char)(autorName.charAt(0) -0xAC00/28/21);
+		System.out.println(firstName);
+	}
+}

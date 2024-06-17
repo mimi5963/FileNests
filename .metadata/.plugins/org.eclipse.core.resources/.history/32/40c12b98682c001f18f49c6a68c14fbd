@@ -1,0 +1,21 @@
+package filenest.domain.label;
+
+public class Label {
+	
+	private static int[] operationCodes ={1,2,3,4,5};
+	private String operationCode;
+	private DeptCode deptCode;
+	private String deptLabel;
+	
+
+	
+	public String getDocumentCode() {
+		
+		return deptCode.getClassficationCode()+operationCode;
+	}
+	
+	
+	public static void main(String[] args) {
+		
+	}
+}

@@ -1,0 +1,57 @@
+package filenest.domain.label;
+
+public enum DeptCode {
+	
+	
+	
+	GeneralAffairs(0,"G",DeptCode.GENERALDOCS),
+	HumanResources(1,"H",DeptCode.HUMANDOCS),
+	Accounting(2,"A",DeptCode.ACCOUNTINGDOCS ),
+	SalesTeam(3,"S",DeptCode.SALESTEAMDOCS),
+	Materials(4,"M",DeptCode.MATERIALSDOCS),
+	Planning(5,"P",DeptCode.PLANNINGDOCS),
+	IT(6,"I",DeptCode.ITDOCS),
+	Etc(7,"E",DeptCode.ECT);
+	
+	private int deptCode;
+	private String initial;
+	private String[] docs;
+	
+	private  static final String[] GENERALDOCS = {"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] HUMANDOCS = {"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] SALESTEAMDOCS ={"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] ACCOUNTINGDOCS ={"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] MATERIALSDOCS ={"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] PLANNINGDOCS ={"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] ITDOCS ={"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private  static final String[] ECT ={"1.사무관리","2.후생관리","3.계약관리","4.회의관리","5.의전관리"};
+	private DeptCode(int deptCode, String initial, String[] docs) {
+		this.deptCode = deptCode;
+		this.initial = initial;
+		this.docs = docs;
+	}
+	
+	public int getDeptCode() {
+		return this.deptCode;
+	}
+	public String getInitial() {
+		return this.initial;
+	}
+	
+	public String getClassficationCode() {
+		return initial+"-"+deptCode;
+	}
+	
+	public static DeptCode getDeptCode(int ordinal) {
+		for(DeptCode dc : DeptCode.values()) {
+			if(dc.getDeptCode() == ordinal) {
+				return dc;
+			}
+		}
+		return null;
+	}
+	public String[] getOperationCodes() {
+		return this.docs;
+	}
+	
+}

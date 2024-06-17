@@ -1,0 +1,15 @@
+package filenest.domain;
+
+import java.io.Serializable;
+
+public class Customer implements Serializable {
+
+	public void showCusInfo() {
+		//
+	}
+
+	public String getName() {
+		
+		return null;
+	}
+}

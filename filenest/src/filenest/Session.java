@@ -7,14 +7,15 @@ import filenest.domain.Customer;
 
 public class Session {
 	private static Map<String, Customer> session = new HashMap<String,Customer>();
-	
+	private static String userIdSession;
 	private Session() {}
 	
-	private static void setNewSession(String userId, Customer customer) {
+	public static void setNewSession(String userId, Customer customer) {
 		session.put(userId, customer);
+		userIdSession = userId;
 	}
-	private static Customer getSession(String userId) {
-		return session.get(userId);
+	public static Customer getSession() {
+		return session.get(userIdSession);
 	}
 	
 }

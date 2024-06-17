@@ -1,0 +1,47 @@
+package filenest.domain;
+
+import filenest.domain.label.Label;
+
+public class Document {
+	
+	private DeptCode deptCode;
+	private String operationCode;
+	private String documentName;
+	private Customer customer;
+	private String content;
+	private DocumentStatus documentStatus;
+	private Label label;
+	
+	
+	
+	public String getOperaionCode() {
+		return this.operationCode;
+	}
+	
+	public String getDocumentCode() {
+		return 
+	}
+	
+	public String getDocumentName() {
+		return documentName;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+	
+	public String getContent() {
+		return content;
+	}
+
+	public DocumentStatus getDocumentStatus() {
+		return documentStatus;
+	}
+
+	public Label getLabel() {
+		return label;
+	}
+
+	
+	
+}

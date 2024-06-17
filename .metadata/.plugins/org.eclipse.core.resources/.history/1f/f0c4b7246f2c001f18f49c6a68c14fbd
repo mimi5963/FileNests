@@ -1,0 +1,11 @@
+package filenest.domain;
+
+import java.sql.Date;
+
+public class DocumentStatus {
+	private Date regDate;
+	private Date lastModifiedDate;
+	private String versionName;
+	private boolean isPrivate;
+	private String password;
+}

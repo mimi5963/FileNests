@@ -1,0 +1,16 @@
+package filenest.system;
+
+import java.util.List;
+
+import filenest.domain.Document;
+
+public class DocumentSys {
+	private List<Document> document;
+	
+	
+	
+	public void addNewDocs() {
+		System.out.println("");
+	}
+	
+}

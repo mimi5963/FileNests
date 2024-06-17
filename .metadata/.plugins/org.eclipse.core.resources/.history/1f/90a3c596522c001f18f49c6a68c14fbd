@@ -1,0 +1,7 @@
+package filenest.domain;
+
+public class Label {
+	private int classSymbol;
+	private String deptLabel;
+	private String authorsymbol;
+}

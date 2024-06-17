@@ -1,0 +1,19 @@
+package filenest.domain.label;
+
+public class Label {
+	private static int[] operationCodes ={1,2,3,4,5};
+	//추가
+	private String operationCode;
+	private DeptCode deptCode;
+	private String deptLabel;
+	private String authorSymbol;
+	//분류기호 -> 저자기호
+	// 분류 부서기호 - 문서기호
+	public String getDocumentCode() {
+		
+		return deptCode.getClassficationCode()+operationCode;
+	}
+	public String getauthorSymbol() {
+		return this.authorSymbol;
+	}
+}

@@ -1,0 +1,39 @@
+package filenest.domain.label;
+
+public class Label {
+	private static int[] operationCodes ={1,2,3,4,5};
+	//�߰�
+	private String operationCode;
+	private DeptCode deptCode;
+	private String deptLabel;
+	private String authorSymbol;
+	//�з���ȣ -> ���ڱ�ȣ
+	// �з� �μ���ȣ - ������ȣ
+	
+	final static String[] CHO = {
+			"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ" , "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+	};
+	
+	public String getDocumentCode() {
+		
+		return deptCode.getClassficationCode()+operationCode;
+	}
+	public String getauthorSymbol() {
+		return this.authorSymbol;
+	}
+	private void setAuthorSymbol(String autorName) {
+		char firstName  = (char)((autorName.charAt(0) -0xAC00/28)/21);
+		
+		if(autorName.length() == 2) {
+			
+		}else {
+			
+		}
+	}
+	
+	public static void main(String[] args) {
+		String autorName = "안";
+		char firstName  = (char)((autorName.charAt(0) -0xAC00)/28/21);
+		System.out.println(firstName);
+	}
+}
