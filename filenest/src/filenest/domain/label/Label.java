@@ -13,7 +13,7 @@ public class Label implements Serializable{
 	public Label(int operationCode, DeptCode deptCode) {
 		this.operationCode = operationCode;
 		this.deptCode = deptCode;
-		this.regNumber="KMS"+"0".repeat(4-(regCount+"").length())+regCount;
+		this.regNumber="KMS"+"0".repeat(4-(regCount+"").length())+(++regCount);
 	}
 	
 	public String getDocumentCode() {

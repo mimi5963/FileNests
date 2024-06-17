@@ -2,50 +2,55 @@ package filenest.system;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import filenest.domain.Document;
+import filenest.domain.DocumentInfo;
+import filenest.util.FileIoUtil;
 
 public class RollbackSYs {
 	
-	private Map<String, List<Document>> rollbackDocs;
-	private static final String ROLLBACK_PATH = "C:\\Users\\KOSA\\Desktop\\docsIO\\rollback";
+
+	private Map<String,List<DocumentInfo>> rollBackListMap;
+
 	
 	public RollbackSYs() {
-		rollbackDocs = new HashMap<String, List<Document>>();
+
+
+		rollBackListMap = new HashMap<String,List<DocumentInfo>>();
 	}
-	public void rollBackDocs(Document docs) {
-		List<Document> docList = rollbackDocs.get(docs.getLabel().getRegNumber());
-		if(docList == null) {
-			docList = new ArrayList<Document>();
-			rollbackDocs.put(docs.getLabel().getRegNumber(), docList);
-		}
-		docList.add(docs);
-		
+
+	public void saveRollBackList(){
+		FileIoUtil.saveRollBackList(this.rollBackListMap);
 	}
+
 	
-	public Collection<Document> getLastVersionDocs(String regNumber){
-		return rollbackDocs.get(regNumber);
+	public Collection<DocumentInfo> getLastVersionDocs(String regNumber){
+
+		return rollBackListMap.get(regNumber);
 	}
-	public void showDocVersions(Document docs) {
-		
-		
+
+
+
+
+	public void addRollBackInfo(String regNumber, DocumentInfo documentInfo) {
+		List<DocumentInfo> documentInfoList = rollBackListMap.get(regNumber);
+		if(documentInfoList == null){
+			documentInfoList = new ArrayList<>();
+			rollBackListMap.put(regNumber,documentInfoList);
+		}
+		documentInfoList.add(documentInfo);
 	}
-	public Document findVersionDocs(String regNumber, String getversions) {
-		for(Document docs : getLastVersionDocs(regNumber)) {
-			if(docs.getDocumentStatus().getversionName().equals(getversions)) {
-				return docs;
-			}
+
+	public DocumentInfo removeVersion(DocumentInfo removeDocs) {
+		List<DocumentInfo> documentInfoList = this.rollBackListMap.get(removeDocs.getLabel().getRegNumber());
+		documentInfoList.remove(removeDocs);
+
+		if(!documentInfoList.isEmpty()){
+			return documentInfoList.get(0);
 		}
 		return null;
-		
 	}
-	
-	
-	
-	
-	
 }
