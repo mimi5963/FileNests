@@ -2,11 +2,11 @@ package filenest.system;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import filenest.Session;
 import filenest.domain.Customer;
 import filenest.domain.Document;
@@ -169,7 +169,9 @@ public class DocumentSys {
 		}
 		return null;
 	}
-	//private void re
+	private void removeDocumentFromDocMap(Document docs) {
+		
+	}
 	
 	public void modifyDocs(Document docs) {
 		System.out.println("**************수정할 내용을 입력해주세요************");
@@ -181,7 +183,28 @@ public class DocumentSys {
 			sb.append(input+"\n");
 		}
 		rollbackSYs.rollBackDocs(docs);
+		Document newDocs = docs.getNewVersionDocs(sb.toString());
+		updateBookMap(newDocs);
+		IOUtil.writeDocumentPdf(newDocs);
 		//Document docfindDocumentByRegNumber(regNumber);
 		
 	}
+	
+	public void changeDocVersion(Document docs) {
+		System.out.println("**************돌아가실 문서 버전을 선택해주세요******************");
+		Collection<Document> modiDocs = this.rollbackSYs.getLastVersionDocs(docs.getLabel().getRegNumber());
+		for(Document doc : modiDocs) {
+			doc.showVersionAndModifiedDate();
+		}
+		String getversions = KeyBoardInput.scanner.nextLine();
+		Document selectedDocument = rollbackSYs.findVersionDocs(docs.getDocumentStatus().getversionName(),getversions);
+		updateBookMap(selectedDocument);
+		
+		System.out.println("********************************************************");
+	}
+	
+	private void updateBookMap(Document newDocs) {
+		bookMap.get(newDocs.getLabel().getDeptCode()).put(newDocs.getLabel().getRegNumber(),newDocs);
+	}
+	
 }

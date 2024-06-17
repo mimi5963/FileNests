@@ -32,6 +32,11 @@ public class DocumentStatus implements Serializable{
 		this.versionName = versionName;
 		this.isPrivate=isPrivate;
 	}
+	public static DocumentStatus modifiedStatus(DocumentStatus docStatus) {
+		String[] versions =  docStatus.getversionName().split("-");
+		String newVersion = versions[0]+"_"+(Integer.parseInt(versions[1])+1);
+		return new DocumentStatus(docStatus.regDate,new Date(),newVersion,docStatus.isPrivate,docStatus.password);
+	}
 	public static DocumentStatus documentStatusWithPassword(String pass, String versionName) {
 		return new DocumentStatus(new Date(),new Date(), versionName,true,pass);
 	}

@@ -81,7 +81,18 @@ public class Document implements Serializable{
 		
 		return this.path;
 	}
+
+
+	public Document getNewVersionDocs(String content) {
+		DocumentStatus newStatus = this.documentStatus.modifiedStatus(this.documentStatus);
+		return new Document(this.documentTitle, customer, content, newStatus, this.label, this.path);
+	}
 	
+	public void showVersionAndModifiedDate() {
+		System.out.println("제목 : "+this.documentTitle);
+		System.out.println("최종수정일 : "+DateFormatter.fomatter.format(this.documentStatus.getLastModifiedDate()));
+		System.out.println("버전 정보 : "+this.documentStatus.getversionName());
+	}
 	
 	
 	

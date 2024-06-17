@@ -29,4 +29,7 @@ public class Label implements Serializable{
 	public String getRegNumber() {
 		return this.regNumber;
 	}
+	public DeptCode getDeptCode() {
+		return this.deptCode;
+	}
 }

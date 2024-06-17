@@ -20,7 +20,7 @@ public class IOUtil {
 	private static ObjectInputStream ois;
 	private static ObjectOutputStream oos;
 	private static final String OBJECTPATH = "C:\\Users\\KOSA\\Desktop\\docsIO\\seial"+File.separator+"dos.ser";
-	
+	private static final String ROLLBACK_PATH = "C:\\Users\\KOSA\\Desktop\\docsIO\\rollback"+File.separator+"roll.ser";
 	public static void writeDocumentPdf(Document document) {
 		
 		try {
@@ -67,6 +67,48 @@ public class IOUtil {
 		try {
 			ois = new ObjectInputStream(new FileInputStream(OBJECTPATH));
 			return (EnumMap<DeptCode,Map<String,Document>>)ois.readObject();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		}finally {
+			try {
+				ois.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public static void writeRollBackDocument(Map<String, List<Document>> rollbackDocs) {
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(ROLLBACK_PATH));
+			oos.writeObject(rollbackDocs);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				oos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static Map<String, List<Document>> readRollBackDocumentMap(){
+		try {
+			ois = new ObjectInputStream(new FileInputStream(ROLLBACK_PATH));
+			return (Map<String, List<Document>>)ois.readObject();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

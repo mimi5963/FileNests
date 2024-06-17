@@ -1,0 +1,72 @@
+
+package filenest.system;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import filenest.domain.QnA;
+
+public class QnASys {
+    private List<QnA> qnaList = new ArrayList<>();
+    private List<ManagerAlarmObserver> managerObservers = new ArrayList<>();
+    private List<CustomerAlarmObserver> customerObservers = new ArrayList<>();
+
+    // 매니저와 고객을 옵저버로 등록
+    public void addManagerObserver(ManagerAlarmObserver observer) {
+        managerObservers.add(observer);
+    }
+
+    public void addCustomerObserver(CustomerAlarmObserver observer) {
+        customerObservers.add(observer);
+    }
+
+    private void notifyManagers(QnA qna) {
+        for (ManagerAlarmObserver observer : managerObservers) {
+            observer.update(qna);
+        }
+    }
+
+    private void notifyCustomers(QnA qna) {
+        for (CustomerAlarmObserver observer : customerObservers) {
+            observer.update(qna);
+        }
+    }
+
+    public void createQnA(Customer customer) {
+        System.out.print("문의 제목 입력 : ");
+        String title = KeyBoardInput.scanner.nextLine();
+
+        System.out.print("문의 내용 입력 : ");
+        String content = KeyBoardInput.scanner.nextLine();
+
+        // SimpleDateFormat을 사용하여 원하는 포맷으로 날짜를 출력
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String formattedDate = dateFormat.format(currentDate);
+
+        QnA newQnA = new QnA(customer, title, content, false, null, formattedDate);
+
+        qnaList.add(newQnA);
+
+        // 매니저에게 알림
+        notifyManagers(newQnA);
+
+    }
+
+    public void answerQnA(QnA qnA) {
+        System.out.print("문의에 대한 답변 입력 : ");
+        String answer = KeyBoardInput.scanner.nextLine();
+
+        qnA.setQnaAnswer(answer);
+        qnA.setQnaStatus(true);
+
+        // 고객에게 알림
+        // 로그인 할 때 때리기.
+        notifyCustomers(qnA);
+    }
+
+    public List<QnA> getQnaList() {
+        return qnaList;
+    }
+
+}

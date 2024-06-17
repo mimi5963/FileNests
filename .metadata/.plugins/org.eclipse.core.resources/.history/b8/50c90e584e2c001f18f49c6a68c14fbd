@@ -1,6 +1,0 @@
-package filenest.system;
-
-public class DocumentSys {
-	private List<Document> document;
-	
-}

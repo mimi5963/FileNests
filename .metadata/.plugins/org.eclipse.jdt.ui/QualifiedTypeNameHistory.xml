@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="filenest.domain.QnA"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="filenest.observer.ManagerAlarmObserver"/>
+    <fullyQualifiedTypeName name="filenest.observer.CustomerAlarmObserver"/>
+    <fullyQualifiedTypeName name="filenest.domain.Customer"/>
+    <fullyQualifiedTypeName name="filenest.util.KeyBoardInput"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="filenest.domain.Document"/>
+    <fullyQualifiedTypeName name="filenest.domain.label.Label"/>
+    <fullyQualifiedTypeName name="filenest.domain.DocumentStatus"/>
+    <fullyQualifiedTypeName name="filenest.util.IOUtil"/>
+    <fullyQualifiedTypeName name="java.text.DateFormat"/>
+    <fullyQualifiedTypeName name="java.util.Collections"/>
+    <fullyQualifiedTypeName name="com.sun.tools.javac.util.Context.Key"/>
+</qualifiedTypeNameHistroy>
