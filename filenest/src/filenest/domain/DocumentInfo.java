@@ -67,7 +67,24 @@ public class DocumentInfo implements Serializable {
 		this.authorId = customer.getId();
 	}
 
-	public static DocumentInfo modifiedStatus(DocumentInfo docStatus) {
+	public DocumentInfo(Date today, int i, boolean isPrivate2, String password2, Customer cus, Label label2,
+			Date regDate2, String title2) {
+		this.regDate = regDate2;
+		this.lastModifiedDate = today;
+		this.versionNum = versionNum;
+		this.isPrivate = isPrivate2;
+		this.password = password2;
+		this.authorName = cus.getName();
+		this.authorDept = cus.getDept();
+		this.authorId = cus.getId();
+		this.label = label2;
+		this.title = title2;
+		setVersionNum(this.label.getRegNumber());
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public static DocumentInfo modifiedDocInfo(DocumentInfo docStatus) {
 		String[] versions = docStatus.getVersionName().split("-");
 		String newVersion = versions[0] + "_" + (Integer.parseInt(versions[1]) + 1);
 		return new DocumentInfo(new Date(), newVersion, docStatus.isPrivate, docStatus.password);
@@ -135,8 +152,8 @@ public class DocumentInfo implements Serializable {
 	}
 
 	public DocumentInfo changeDocsVersion() {
-
-		return new DocumentInfo(DateFormatter.today, ++this.versionNum, this.isPrivate, this.password, Session.getSession());
+		return new DocumentInfo(DateFormatter.today, ++this.versionNum, this.isPrivate, this.password, Session.getSession(),this.label,this.regDate,this.title);
+		//return new DocumentInfo(DateFormatter.today, ++this.versionNum, this.isPrivate, this.password, Session.getSession());
 	}
 
 	public String getTitle() {

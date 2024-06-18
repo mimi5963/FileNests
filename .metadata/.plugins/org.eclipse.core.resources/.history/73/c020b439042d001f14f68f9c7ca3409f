@@ -1,0 +1,89 @@
+package filenest.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.StringReader;
+import java.nio.charset.Charset;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerFontProvider;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFile;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.CssAppliers;
+import com.itextpdf.tool.xml.html.CssAppliersImpl;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+
+import filenest.domain.DocumentInfo;
+
+public class FileDown {
+	private static final String PATH="C:\\Users\\KOSA\\Desktop\\docsIO";
+	
+	
+	public void downPdf(DocumentInfo info) {
+		Document pddocs = new Document(PageSize.A4,50,50,50,50);
+		
+		try {
+			PdfWriter writer = PdfWriter.getInstance(pddocs, new FileOutputStream(PATH+File.separator+"test.pdf"));
+			writer.setInitialLeading(12.5f);
+	
+			pddocs.open(); //생성된 파일을 오픈
+			XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
+			CSSResolver cssResolver = new StyleAttrCSSResolver();
+			CssFile cssFile = null;
+			try {
+			cssFile = helper.getCSS(new FileInputStream("pdf.css"));
+			} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			}
+			cssResolver.addCss(cssFile);
+
+			
+			XMLWorkerFontProvider fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+			fontProvider.register("MALGUN.ttf","MalgunGothic"); // MalgunGothic 은 alias,
+			CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+
+			HtmlPipelineContext htmlContext = new HtmlPipelineContext(cssAppliers);
+			htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
+
+			
+			PdfWriterPipeline pdf = new PdfWriterPipeline(pddocs, writer);
+			HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+			CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
+
+			XMLWorker worker = new XMLWorker(css, true);
+			XMLParser xmlParser = new XMLParser(worker, Charset.forName("UTF-8"));
+
+			// 폰트 설정에서 별칭으로 줬던 "MalgunGothic"을 html 안에 폰트로 지정한다.
+			
+			FileInputStream fis = new FileInputStream(info.get)
+			
+			String htmlStr = "<html><head><body style='font-family: MalgunGothic;'>"
+			+"<p>itextpdf 라이브러리를 사용해 pdf 파일을 만들어 봅니다.</p>"
+			+"<p>1. pdf 파일을 만들고</p>"
+			+"<p>2. css도 붙이고</p>"
+			+ "<p>3. html을 만들어서 pdf에 쓰는 형태입니다.</p>"
+			+ "</body></head></html>";
+
+			StringReader strReader = new StringReader(htmlStr);
+			xmlParser.parse(strReader);
+			pddocs.close();
+			writer.close();
+		
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}

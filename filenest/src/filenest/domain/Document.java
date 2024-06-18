@@ -94,7 +94,7 @@ public class Document implements Serializable{
 
 
 	public Document getNewVersionDocs(String content) {
-		DocumentInfo newStatus = this.documentInfo.modifiedStatus(this.documentInfo);
+		DocumentInfo newStatus = this.documentInfo.modifiedDocInfo(this.documentInfo);
 		return new Document(this.documentTitle, customer, content, newStatus, this.label);
 	}
 	
@@ -105,12 +105,12 @@ public class Document implements Serializable{
 	}
 
 	public String getUploadFormat(){
-		return  "*".repeat(25)
+		return  "*".repeat(30)+"\n"
 				+"문서명 : "+this.documentTitle+"\t등록번호:"+this.label.getRegNumber()+"\t저자:"+this.customer.getName()+"\n"
-				+"-".repeat(10)+"문서정보"+"-".repeat(10)+"\n"
+				+"-".repeat(15)+"문서정보"+"-".repeat(15)+"\n"
 				+"분류기호 :"+this.label.getDocumentCode()+"\t문서버전:"+ documentInfo.getShortVersionName()+"\t공개여부:"+(documentInfo.isPrivate() ? "비공개":"공개")+"\n"
 				+"등록일자 :"+DateFormatter.fomatter.format(documentInfo.getRegDate())+"\t 최종 수정일:"+DateFormatter.fomatter.format(this.documentInfo.getLastModifiedDate())+"\n"
-				+"-----------------------------------------------------------------------------------------------\n"
+				+"-----------------------------------------------\n"
 				+"내용:\n"+this.content;
 	}
 	

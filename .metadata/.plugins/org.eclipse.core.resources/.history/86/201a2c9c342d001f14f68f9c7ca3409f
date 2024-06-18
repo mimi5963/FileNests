@@ -1,0 +1,92 @@
+package filenest.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.StringReader;
+import java.nio.charset.Charset;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerFontProvider;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFile;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.CssAppliers;
+import com.itextpdf.tool.xml.html.CssAppliersImpl;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+
+import filenest.domain.DocumentInfo;
+
+public class FileDown {
+	private static final String PATH="C:\\Users\\KOSA\\Desktop\\";
+	
+	
+	public static void downPdf(DocumentInfo info) {
+		Document pddocs = new Document(PageSize.A4,50,50,50,50);
+		
+		try {
+			PdfWriter writer = PdfWriter.getInstance(pddocs, new FileOutputStream(PATH+File.separator+info.getTitle()+".pdf"));
+			writer.setInitialLeading(12.5f);
+	
+			pddocs.open(); //생성된 파일을 오픈
+			XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
+			CSSResolver cssResolver = new StyleAttrCSSResolver();
+			CssFile cssFile = null;
+			try {
+			cssFile = helper.getCSS(new FileInputStream("pdf.css"));
+			} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			}
+			cssResolver.addCss(cssFile);
+
+			
+			XMLWorkerFontProvider fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+			fontProvider.register("MALGUN.ttf","MalgunGothic"); 
+			CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+
+			HtmlPipelineContext htmlContext = new HtmlPipelineContext(cssAppliers);
+			htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
+
+			
+			PdfWriterPipeline pdf = new PdfWriterPipeline(pddocs, writer);
+			HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+			CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
+
+			XMLWorker worker = new XMLWorker(css, true);
+			XMLParser xmlParser = new XMLParser(worker, Charset.forName("UTF-8"));
+
+			
+			
+			FileReader fis = new FileReader(FileIoUtil.getUploadFullPath(info.getVersionName())+".txt");
+			StringBuffer sb = new StringBuffer();
+			char[] buffer = new char[100];
+			while(fis.read(buffer) != -1) {
+				sb.append(new String(buffer+"\n"));
+			}
+			
+			String htmlStr = "<html><head><body style='font-family: MalgunGothic;'>"
+			+ "<p>"+sb.toString()+"</p>"
+			+ "</body></head></html>";
+
+			StringReader strReader = new StringReader(htmlStr);
+			xmlParser.parse(strReader);
+			pddocs.close();
+			writer.close();
+		
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}

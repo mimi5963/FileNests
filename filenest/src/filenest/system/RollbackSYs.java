@@ -10,16 +10,35 @@ import filenest.domain.Document;
 import filenest.domain.DocumentInfo;
 import filenest.util.FileIoUtil;
 
+
 public class RollbackSYs {
 	
 
 	private Map<String,List<DocumentInfo>> rollBackListMap;
-
+	private Thread autoRollBackThread;
 	
 	public RollbackSYs() {
-
-
 		rollBackListMap = new HashMap<String,List<DocumentInfo>>();
+		
+		this .autoRollBackThread = new Thread(() ->{
+			try {
+				while(true) {
+				Thread.sleep(1000*60*60);
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			FileIoUtil.autoSaveRollBackListMap(this.rollBackListMap);
+		});
+		autoSave();
+	}
+
+	private void autoSave() {
+		autoRollBackThread.setDaemon(true);
+		autoRollBackThread.start();
+	
+		
 	}
 
 	public void saveRollBackList(){
@@ -31,8 +50,6 @@ public class RollbackSYs {
 
 		return rollBackListMap.get(regNumber);
 	}
-
-
 
 
 	public void addRollBackInfo(String regNumber, DocumentInfo documentInfo) {

@@ -1,0 +1,151 @@
+package filenest.util;
+
+import filenest.domain.Document;
+import filenest.domain.DocumentInfo;
+import filenest.domain.label.DeptCode;
+
+import java.io.*;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+public class FileIoUtil {
+    private static FileOutputStream fos;
+    private static FileInputStream fis;
+    private static ObjectInputStream ois;
+    private static ObjectOutputStream oos;
+    public static final String FILE_DIR ="C:\\Users\\KOSA\\Desktop\\file\\file";
+    public static final String FILE_ROLL_BACK_DIR ="C:\\Users\\won\\Desktop\\files\\fileRollBack";
+    public static final String SER_DIR ="C:\\Users\\won\\Desktop\\files\\ser";
+    public static final String SER_VERSIONS_DIR = "C:\\Users\\won\\Desktop\\files\\serVersions";
+    public static final String EXTENSION =".txt";
+
+    private static final String ROLLBACK_SERIAL ="rollback.ser";
+    private static final String ROLLBACK_SERIAL_AUTO ="rollbackAuto.ser";
+
+    private static final String SERIAL ="docs.ser";
+    private static final String SERIAL_AUTO ="docsAuto.ser";
+
+
+    public static String getUploadFullPath(String fileName){
+        return FILE_DIR+File.separator+fileName;
+    }
+
+    public static void writeDocument(Document document) {
+
+        try {
+            fos = new FileOutputStream(getUploadFullPath(document.getDocumentStatus().getVersionName())+EXTENSION);
+
+            fos.write(document.getUploadFormat().getBytes());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void readDocument(DocumentInfo findDocsInfo) {
+        try {
+           // fis = new FileInputStream(getUploadFullPath(findDocsInfo.getVersionName())+EXTENSION);
+            FileReader fr = new FileReader(getUploadFullPath(findDocsInfo.getVersionName()+EXTENSION));
+            char[] chars = new char[100];
+
+            while ((fr.read(chars)!=-1)){
+                System.out.println(chars);
+            }
+            //System.out.println(fis.readAllBytes().toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveDocumentInfo(EnumMap<DeptCode,Map<String, DocumentInfo>> bookInfoMap){
+        saveDocumentInfoToObject(bookInfoMap,SER_DIR+File.separator+SERIAL);
+    }
+    public static void saveDocumentInfoAuto(EnumMap<DeptCode,Map<String, DocumentInfo>> bookInfoMap){
+        saveDocumentInfoToObject(bookInfoMap,SER_DIR+File.separator+SERIAL_AUTO);
+    }
+
+    private static void saveDocumentInfoToObject(EnumMap<DeptCode, Map<String, DocumentInfo>> target, String path) {
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(path));
+            oos.writeObject(target);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            try {
+                oos.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void saveRollBackList(Map<String, List<DocumentInfo>> target) {
+
+        saveRollBackObject(target,SER_VERSIONS_DIR+File.separator+ ROLLBACK_SERIAL);
+
+    }
+    public static void autoSaveRollBackListMap(Map<String, List<DocumentInfo>> target){
+        saveRollBackObject(target, ROLLBACK_SERIAL_AUTO);
+    }
+    private static void saveRollBackObject(Map<String, List<DocumentInfo>> target, String path) {
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(path));
+            oos.writeObject(target);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            try {
+                oos.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static Map<String, List<DocumentInfo>> readRollBackListMap(){
+        try {
+            ois = new ObjectInputStream(new FileInputStream(SER_VERSIONS_DIR+File.separator+ ROLLBACK_SERIAL));
+            return (Map<String, List<DocumentInfo>>)ois.readObject();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }finally {
+            try {
+                ois.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static void removeFile(DocumentInfo removeDocs) {
+        File removeFile = new File(getUploadFullPath(removeDocs.getVersionName()+EXTENSION));
+        removeFile.delete();
+    }
+}

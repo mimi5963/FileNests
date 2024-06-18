@@ -14,11 +14,11 @@ public class FileIoUtil {
     private static FileInputStream fis;
     private static ObjectInputStream ois;
     private static ObjectOutputStream oos;
-    private static final String FILE_DIR ="C:\\Users\\won\\Desktop\\files\\file";
-    private static final String FILE_ROLL_BACK_DIR ="C:\\Users\\won\\Desktop\\files\\fileRollBack";
-    private static final String SER_DIR ="C:\\Users\\won\\Desktop\\files\\ser";
-    private static final String SER_VERSIONS_DIR = "C:\\Users\\won\\Desktop\\files\\serVersions";
-    private static final String EXTENSION =".txt";
+    public static final String FILE_DIR ="C:\\Users\\KOSA\\Desktop\\file\\file";
+    public static final String FILE_ROLL_BACK_DIR ="C:\\Users\\won\\Desktop\\files\\fileRollBack";
+    public static final String SER_DIR ="C:\\Users\\KOSA\\Desktop\\file\\ser";
+    public static final String SER_VERSIONS_DIR = "C:\\Users\\KOSA\\Desktop\\file\\fileRollBackSer";
+    public static final String EXTENSION =".txt";
 
     private static final String ROLLBACK_SERIAL ="rollback.ser";
     private static final String ROLLBACK_SERIAL_AUTO ="rollbackAuto.ser";
@@ -27,7 +27,7 @@ public class FileIoUtil {
     private static final String SERIAL_AUTO ="docsAuto.ser";
 
 
-    private static String getUploadFullPath(String fileName){
+    public static String getUploadFullPath(String fileName){
         return FILE_DIR+File.separator+fileName;
     }
 

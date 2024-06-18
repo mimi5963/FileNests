@@ -1,0 +1,168 @@
+package filenest.domain;
+
+import filenest.Session;
+import filenest.domain.label.Label;
+import filenest.util.DateFormatter;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class DocumentInfo implements Serializable {
+	@Override
+	public String toString() {
+		return "DocumentStatus" + lastModifiedDate + " + lastModifiedDate + " + versionName + ", isPrivate=" + isPrivate + "]";
+	}
+
+	private String title;
+	private String authorName;
+	private String authorDept;
+	private String authorId;
+	private Date regDate;
+	private Date lastModifiedDate;
+	private String versionName;
+	private int versionNum;
+	private boolean isPrivate;
+	private String password;
+
+	private Label label;
+
+
+	public DocumentInfo() {
+	}
+
+
+	private DocumentInfo(Date lastModifiedDate, String versionName, boolean isPrivate, String password) {
+
+		this.lastModifiedDate = lastModifiedDate;
+		this.versionName = versionName;
+		this.isPrivate = isPrivate;
+		this.password = password;
+	}
+
+	private DocumentInfo(Date lastModiDate, String versionName, boolean isPrivate) {
+
+		this.lastModifiedDate = lastModiDate;
+		this.versionName = versionName;
+		this.isPrivate = isPrivate;
+	}
+
+	private DocumentInfo(Date lastModifiedDate, int versionNum, boolean isPrivate, Customer customer) {
+		this.regDate = DateFormatter.today;
+		this.lastModifiedDate = lastModifiedDate;
+		this.versionNum = versionNum;
+		this.isPrivate = isPrivate;
+		this.authorName = customer.getName();
+		this.authorDept = customer.getDept();
+		this.authorId = customer.getId();
+	}
+
+	private DocumentInfo(Date lastModifiedDate, int versionNum, boolean isPrivate, String pass, Customer customer) {
+		this.regDate = DateFormatter.today;
+		this.lastModifiedDate = lastModifiedDate;
+		this.versionNum = versionNum;
+		this.isPrivate = isPrivate;
+		this.password = pass;
+		this.authorName = customer.getName();
+		this.authorDept = customer.getDept();
+		this.authorId = customer.getId();
+	}
+
+	public static DocumentInfo modifiedDocInfo(DocumentInfo docStatus) {
+		String[] versions = docStatus.getVersionName().split("-");
+		String newVersion = versions[0] + "_" + (Integer.parseInt(versions[1]) + 1);
+		return new DocumentInfo(new Date(), newVersion, docStatus.isPrivate, docStatus.password);
+	}
+
+	public static DocumentInfo documentStatusWithPassword(String pass, String versionName) {
+		return new DocumentInfo(new Date(), versionName, true, pass);
+	}
+
+	public static DocumentInfo documentStatusWithOutPassword(String versionName) {
+		return new DocumentInfo(new Date(), versionName, false);
+	}
+
+	public static DocumentInfo documentStatusWithPassword(String pass, int versionNum, Customer customer) {
+		return new DocumentInfo(new Date(), versionNum, true, pass, customer);
+	}
+
+	public static DocumentInfo documentStatusWithOutPassword(int versionNum, Customer customer) {
+		return new DocumentInfo(new Date(), versionNum, false, customer);
+	}
+
+	public String getVersionName() {
+		return this.versionName;
+	}
+
+	public boolean isPrivate() {
+		return this.isPrivate;
+	}
+
+
+	public Date getLastModifiedDate() {
+
+		return this.lastModifiedDate;
+	}
+
+	public void setVersionNum(String regCode) {
+		this.versionName = regCode + "_V" + versionNum;
+	}
+
+	public String getShortVersionName() {
+		return "V" + this.versionNum;
+	}
+
+
+	public String getDocumentInfo() {
+		return "문서명:" + this.title + "\t등록번호:" + this.label.getRegNumber() + "\n"
+				+ "분류기호:" + this.label.getDocumentCode() + "\t저자명:" + this.authorName;
+	}
+
+	public void showDocumentInfo() {
+		System.out.println(getDocumentInfo());
+	}
+
+	public void setLabel(Label label) {
+		this.label = label;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthorId() {
+		return this.authorId;
+	}
+
+	public DocumentInfo changeDocsVersion() {
+
+		return new DocumentInfo(DateFormatter.today, ++this.versionNum, this.isPrivate, this.password, Session.getSession());
+	}
+
+	public String getTitle() {
+		return this.title;
+	}
+
+	public Label getLabel() {
+		return this.label;
+	}
+
+	public Date getRegDate() {
+		return this.regDate;
+	}
+
+	public String getAuthorName() {
+		return authorName;
+	}
+
+	public void showVersionInfo() {
+		System.out.println("버전명:" + this.versionName);
+		System.out.println("최종 수정일" + DateFormatter.fomatter.format(this.lastModifiedDate));
+
+	}
+
+	public void rollBackVersion(String input) {
+		this.versionName = input;
+	}
+
+}

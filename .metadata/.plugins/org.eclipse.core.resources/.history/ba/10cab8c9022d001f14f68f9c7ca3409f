@@ -1,0 +1,24 @@
+package filenest.util;
+
+import java.io.FileOutputStream;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import filenest.domain.DocumentInfo;
+
+public class FileDown {
+	private static final String PATH="C:\\Users\\KOSA\\Desktop\\docsIO";
+	
+	
+	public void downPdf(DocumentInfo info) {
+		Document pddocs = new Document(PageSize.A4,50,50,50,50);
+		
+		try {
+			PdfWriter writer = PdfWriter.getInstance(pddocs, new FileOutputStream(PATH))
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}
